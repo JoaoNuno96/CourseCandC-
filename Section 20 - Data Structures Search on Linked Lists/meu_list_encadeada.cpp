@@ -80,29 +80,141 @@ void addLast(Pessoa *&first)
     cin >> newObj->nome;
     cout << "Digite um RG: ";
     cin >> newObj->rg;
+    newObj->pointerNextElement = NULL;
 
-    while(first != NULL)
+    if(first->nome == "")
     {
-        if(first == NULL)
+        newObj->pointerNextElement = NULL;
+        first = newObj;
+    }
+    else
+    {
+        Pessoa *aux = first;
+        //CYCLE
+        while(aux != NULL)
         {
-            first->pointerNextElement = newObj;
-        }
-        else
-        {
-            continue;
+            if(aux->pointerNextElement == NULL)
+            {
+                aux->pointerNextElement = newObj;
+                return;
+            }
+
+            aux = aux->pointerNextElement;
         }
 
-        first = first->pointerNextElement;
+    }
+}
+
+void addNPosition(Pessoa *&first)
+{
+    int index = 0;
+    int counter = 0;
+    Pessoa *aux = new Pessoa;
+    Pessoa *current = first;
+    Pessoa *resto = new Pessoa;
+
+    cout << "Digite um nome: ";
+    cin >> aux->nome;
+    cout << "Digite um RG: ";
+    cin >> aux->rg;
+
+    aux->pointerNextElement = nullptr;
+
+    cout << "Digite Indice para adicionar: ";
+    cin >> index;
+
+    //CIRCLE FIRST PART OF LINK LIST
+    while(current != NULL && counter < index - 1)
+    {
+        current = current->pointerNextElement;
+        counter++;
     }
 
-    first = newObj;
+    resto->pointerNextElement = current->pointerNextElement;
+    current->pointerNextElement = aux;
+    aux->pointerNextElement = resto->pointerNextElement;
+
+
+}
+
+void removeFirst(Pessoa *&first)
+{
+	first = first->pointerNextElement;
+}
+
+void removeLast(Pessoa *&first)
+{
+	Pessoa *aux = first;
+	Pessoa *saveLastElemnt = new Pessoa;
+	
+	while(aux->pointerNextElement != NULL)
+	{
+		saveLastElemnt = aux;
+		aux = aux->pointerNextElement;
+	}
+	
+	saveLastElemnt->pointerNextElement = nullptr;
+}
+
+void removeNPosition(Pessoa *&first)
+{
+	int index = 0;
+    int counter = 0;
+    //Pessoa *aux = new Pessoa;
+    Pessoa *current = first;
+    //Pessoa *resto = new Pessoa;
+
+    cout << "Digite uma posicao";
+    cin >> index;
+    
+    while(current != NULL && counter < index - 1)
+    {
+		current = current->pointerNextElement;
+		counter++;
+	}
+	
+	if(current != NULL && current->pointerNextElement != NULL)
+	{
+		current->pointerNextElement = (current->pointerNextElement)->pointerNextElement;
+	}
+	
+	
+}
+
+void nameOfPessoa(Pessoa *&first)
+{
+	Pessoa *aux = first;
+	string name = "";
+	int rg = 0;
+	
+	cout << "Digite RG:";
+	cin >> rg;
+	
+	
+	while(aux != NULL)
+	{
+		if(rg == aux->rg)
+		{
+			name = aux->nome;
+			break;
+		}
+		
+		aux = aux->pointerNextElement;
+	}
+	
+	if(name != "")
+	{
+		cout << "A pessoa com esse rg tem o nome de " + name + "\n";
+	}
+	else
+	{
+		cout << "Não existe pessoa com esse rg";
+	}
+	
 }
 
 void checkUserChoice(Pessoa *&listlink, int choice)
 {
-    string nome;
-    int rg;
-
     clearScreen();
 
     switch(choice)
@@ -117,18 +229,23 @@ void checkUserChoice(Pessoa *&listlink, int choice)
             break;
 
         case 3:
+            addNPosition(listlink);
             break;
 
         case 4:
+			removeFirst(listlink);
             break;
 
         case 5:
+			removeLast(listlink);
             break;
 
         case 6:
+			removeNPosition(listlink);
             break;
 
         case 7:
+			nameOfPessoa(listlink);
             break;
 
         case 8:
