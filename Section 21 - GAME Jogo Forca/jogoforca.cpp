@@ -69,14 +69,42 @@ void playAlone(string word)
 	string lettersUsed;
 	string wordMasked = maskWord(word,wordSize);
 	bool letterAlreadyUsed;
+	bool guessedLetter = false;
 	
 	while ((maxTries - tries > 0) && word != wordMasked)
 	{
+		guessedLetter = false;
 		
 		showStatus(wordMasked,(maxTries-tries),lettersUsed);
 		
-		cout << "\nDigite uma letra: ";
+		cout << "\nDigite uma letra ou digite 1 para arriscar a palavra: ";
 		cin >> letter;
+		
+		if(letter == '1')
+		{
+			string suspectWord;
+			
+			cout << "\nDigite a palavra que suspeita: ";
+			cin >> suspectWord;
+			
+			if(suspectWord == word)
+			{
+				cout << "\nGanhou!!!\n";
+				cout << "Muito bem! essa é a palavra correcta!!\n";
+				wordMasked = suspectWord;
+				break;
+			}
+			else
+			{
+				cout << "\nPerdeu!!\n";
+				cout << "Bolas! Essa não era a palavra!!\n";
+				cout << "A palavra correcta seria " << word << "\n";
+				tries = maxTries;
+				break;
+			}
+			
+			tries++;
+		}
 		
 		letterAlreadyUsed = checkWordUsed(lettersUsed,letter);
 		
@@ -89,26 +117,41 @@ void playAlone(string word)
 		
 		lettersUsed += letter;
 		
+		//GUESS THE LETTER
 		for(count = 0; count < wordSize; count ++)
 		{
 			if(word[count] == letter)
 			{
+				guessedLetter = true;
 				wordMasked[count] = word[count];
 			}
 		}
 		
-		tries++;
 		
+		
+		if(guessedLetter)
+		{
+			cout << "\nMuito bem, acertaste uma letra!\n";		
+		}
+		else
+		{
+			cout << "\nBolas! Tenta novamente!\n";
+		}
+		
+		tries++;
 		//maskWord(word,wordSize,letter);
 	}
 	
+	
+	
+	
 	if(word == wordMasked)
 	{
-		cout << "Winner!";
+		cout << "\nWinner!";
 	}
 	else
 	{
-		cout << "You Lose!";
+		cout << "\nYou Lose!";
 	}
 
 	
