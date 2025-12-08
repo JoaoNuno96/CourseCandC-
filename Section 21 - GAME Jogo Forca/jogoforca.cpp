@@ -8,6 +8,10 @@
 
 using namespace std;
 
+void gameStart(int numb);
+
+void mainMenu();
+
 void clearScreen()
 {
 	system("clear");
@@ -18,7 +22,7 @@ bool checkWordUsed(string lettersUsed, char letter)
 	size_t i;
 	for(i = 0; i < lettersUsed.size(); i++)
 	{
-		if(lettersUsed[i] == letter)
+		if(tolower(lettersUsed[i]) == tolower(letter))
 		{
 			return true;
 		}
@@ -65,11 +69,13 @@ void playAlone(string word)
 	int tries = 0;
 	int maxTries = 7;
 	int wordSize = word.size();
+	int option;
 	char letter;
 	string lettersUsed;
 	string wordMasked = maskWord(word,wordSize);
 	bool letterAlreadyUsed;
 	bool guessedLetter = false;
+	
 	
 	while ((maxTries - tries > 0) && word != wordMasked)
 	{
@@ -120,10 +126,10 @@ void playAlone(string word)
 		//GUESS THE LETTER
 		for(count = 0; count < wordSize; count ++)
 		{
-			if(word[count] == letter)
+			if(word[count] == tolower(letter))
 			{
 				guessedLetter = true;
-				wordMasked[count] = word[count];
+				wordMasked[count] = tolower(word[count]);
 			}
 		}
 		
@@ -131,7 +137,7 @@ void playAlone(string word)
 		
 		if(guessedLetter)
 		{
-			cout << "\nMuito bem, acertaste uma letra!\n";		
+			cout << "\nMuito bem, acertaste uma letra!\n";	
 		}
 		else
 		{
@@ -148,10 +154,28 @@ void playAlone(string word)
 	if(word == wordMasked)
 	{
 		cout << "\nWinner!";
+		cout << "\n Deseja reiniciar?";
+		cout << "\n 1 - Sim";
+		cout << "\n 2 - Não\n";
+		cin >> option;	
 	}
 	else
 	{
 		cout << "\nYou Lose!";
+		cout << "\n Deseja reiniciar?";
+		cout << "\n 1 - Sim";
+		cout << "\n 2 - Não\n";
+		cin >> option;	
+	}
+	
+	if(option == 1)
+	{
+		clearScreen();
+		gameStart(1);
+	}
+	else
+	{
+		cout << "\n A desligar o jogo...";
 	}
 
 	
@@ -171,7 +195,23 @@ void gameStart(int numb)
 
 void gameInfo()
 {
+	int option;
 	
+	clearScreen();
+	cout << "Informações:\nJogo desenvolvido por João Nuno\n";
+	cout << "1 - Voltar\n";
+	cout << "2 - Exit Game\n";
+	cin >> option;
+	
+	if(option == 1)
+	{
+		clearScreen();
+		mainMenu();
+	}
+	else
+	{
+		cout << "\n A desligar o jogo...";
+	}
 }
 
 void gameExit()
@@ -209,8 +249,9 @@ void mainMenu()
 		clearScreen();
 		cout << "Bem-vindo ao Jogo";
 		cout << "\n1 - Jogar";
-		cout << "\n2 - Sobre";
-		cout << "\n3 - Sair";
+		cout << "\n2 - Jogar em dupla";
+		cout << "\n3 - Sobre";
+		cout << "\n4 - Sair";
 		cout << "\nEscolha uma opção e clique enter: ";
 		cin >> option;
 	}
