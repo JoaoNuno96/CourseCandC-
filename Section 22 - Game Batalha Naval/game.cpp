@@ -12,6 +12,62 @@ void clearWindow()
 	system("clear");
 }
 
+void printBoard(char board[10][10])
+{
+	int k,l;
+	
+	for(k = 0; k < 10; k++)
+	{
+		for(l = 0; l < 10; l++)
+		{
+			cout << " " << board[k][l];	
+		}
+		cout << "\n";
+	}
+}
+
+void renderBoard(char board[10][10])
+{
+	int i,j;
+	for(i = 0; i < 10; i++)
+	{
+		for(j = 0; j < 10; j++)
+		{
+			board[i][j] = 'A';			
+		}
+	}
+
+}
+
+char valueFromPosition(char board[10][10], int linha, int coluna)
+{
+	return board[linha][coluna];
+}
+
+void changeOneElement(char board[10][10])
+{
+	int l,c;
+	cout << "Digite o número da linha que pretende alterar: ";
+	cin >> l;
+	cout << "\nDigite o número de coluna que pretende alterar: ";
+	cin >> c;
+	
+	board[l][c] = 'J';
+}
+
+void playGame()
+{
+	char board[10][10];
+	
+	renderBoard(board);
+
+	printBoard(board);
+	
+	changeOneElement(board);
+	
+	printBoard(board);
+}
+
 void gameExit()
 {
 	system("exit");
@@ -41,12 +97,12 @@ void gameInfo()
 	}
 }
 
-
 void choseOption(int option)
 {
 	switch(option)
 	{
 		case 1:
+			playGame();
 			break;
 			
 		case 2:
