@@ -63,7 +63,7 @@ void showStatus(string wordMasked, int lifesLeft, string lettersUsed)
 	cout << "\n";
 }
 
-void playAlone(string word)
+void play(string word)
 {
 	int count = 0;
 	int tries = 0;
@@ -186,10 +186,21 @@ void playAlone(string word)
 
 void gameStart(int numb)
 {
+	string word;
+	
+	//CHECK IF IS SINGLE PLAYER OR MULTIPLAYER
 	if(numb == 1)
 	{
-		playAlone(generateRandomWord());
+		word = generateRandomWord(); 
 	}
+	else
+	{
+		cout << "\nDigite a palavra: ";
+		cin >> word;
+	}
+	
+	play(word);
+	
 	
 }
 
@@ -229,10 +240,13 @@ void checkUserChoice(int choiceParam)
 			break;
 			
 		case 2:
+			gameStart(2);
+			
+		case 3:
 			gameInfo();
 			break;
 			
-		case 3:
+		case 4:
 			gameExit();
 			break;	
 	}
