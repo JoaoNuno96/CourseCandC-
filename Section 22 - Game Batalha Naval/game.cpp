@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 
@@ -26,17 +27,39 @@ void printBoard(char board[10][10])
 	}
 }
 
-void renderBoard(char board[10][10])
+void renderBoard(char board[10][10],char mask[10][10])
 {
 	int i,j;
 	for(i = 0; i < 10; i++)
 	{
 		for(j = 0; j < 10; j++)
 		{
-			board[i][j] = 'A';			
+			board[i][j] = 'A';
+			mask[i][j] = '*';				
 		}
 	}
 
+}
+
+void generateBoats(char board[10][10])
+{
+	int numberOfBoats = 10;
+	int i;
+	int boatsQuantityCheck = 0;
+	
+	while(boatsQuantityCheck < numberOfBoats)
+	{
+		int linhaAux,colunaAux;
+		linhaAux = rand() % 10;
+		colunaAux = rand() % 10;
+		
+		if(board[linhaAux][colunaAux] == 'A')
+		{
+			board[linhaAux][colunaAux] = 'P';
+			boatsQuantityCheck++;
+		}
+		
+	}
 }
 
 char valueFromPosition(char board[10][10], int linha, int coluna)
@@ -44,28 +67,36 @@ char valueFromPosition(char board[10][10], int linha, int coluna)
 	return board[linha][coluna];
 }
 
-void changeOneElement(char board[10][10])
+void changeOneElement(char board[10][10], char mask[10][10])
 {
 	int l,c;
-	cout << "Digite o número da linha que pretende alterar: ";
+	cout << "Digite o número da linha: ";
 	cin >> l;
-	cout << "\nDigite o número de coluna que pretende alterar: ";
+	cout << "\nDigite o número de coluna: ";
 	cin >> c;
 	
-	board[l][c] = 'J';
+	mask[l][c] = board[l][c];
 }
 
 void playGame()
 {
-	char board[10][10];
+	char board[10][10],mask[10][10];
+	int statusGame = 1;						//1 - IN GAME; 2 - GAME OVER
 	
-	renderBoard(board);
+	renderBoard(board,mask);
+	generateBoats(board);
+	
+	while(statusGame == 1)
+	{
+		clearWindow();
+		
+		printBoard(board);
+		
+		changeOneElement(board,mask);
+		
+	}
+	
 
-	printBoard(board);
-	
-	changeOneElement(board);
-	
-	printBoard(board);
 }
 
 void gameExit()
@@ -135,6 +166,8 @@ void mainMenu()
 
 int main()
 {
+	srand((unsigned)time(NULL));
+	
 	mainMenu();
 	return 0;
 }
